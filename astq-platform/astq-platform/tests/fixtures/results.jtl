@@ -1,0 +1,5 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,success,bytes
+1,100,GET products,200,OK,t1,true,200
+2,200,GET products,200,OK,t1,true,200
+3,300,GET products,500,Error,t1,false,10
+4,400,GET products,200,OK,t1,true,200

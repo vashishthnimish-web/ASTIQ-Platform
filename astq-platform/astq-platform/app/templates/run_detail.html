@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Run #{{ run.id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('runs.history') }}">← Run history</a></p>
+<h1>Run #{{ run.id }} {{ badge(run.status) }}</h1>
+<div id="run-live" data-run-id="{{ run.id }}" data-terminal="{{ 'true' if run.is_terminal else 'false' }}"></div>
+{% if not run.is_terminal %}<p class="muted" role="status">This run is in progress — the page refreshes automatically when it finishes.</p>{% endif %}
+
+<dl class="facts">
+  <dt>Suite</dt><dd>{{ run.suite.name }} <code>{{ run.suite.suite_key }}</code></dd>
+  <dt>Created</dt><dd>{{ run.created_at|dt }} UTC</dd>
+  <dt>Started</dt><dd>{{ run.started_at|dt }}</dd>
+  <dt>Finished</dt><dd>{{ run.finished_at|dt }}</dd>
+  <dt>Duration</dt><dd>{{ run.duration_seconds|dur }}</dd>
+  <dt>Return code</dt><dd>{{ run.return_code if run.return_code is not none else '—' }}</dd>
+  <dt>Requested by</dt><dd>{{ run.requested_by or '—' }}</dd>
+</dl>
+
+<h2>Results</h2>
+{% if run.passed_count is none %}
+  <p class="notice">Result counts are not available for this run{% if run.error_kind %} ({{ run.error_kind|replace('_',' ')|lower }}){% endif %}. Raw logs are preserved below.</p>
+{% else %}
+  <section class="cards">
+    <div class="card pass"><div class="num">{{ run.passed_count }}</div><div class="lbl">Passed</div></div>
+    <div class="card fail"><div class="num">{{ run.failed_count }}</div><div class="lbl">Failed</div></div>
+    <div class="card err"><div class="num">{{ run.error_count }}</div><div class="lbl">Errors</div></div>
+    <div class="card"><div class="num">{{ run.skipped_count }}</div><div class="lbl">Skipped</div></div>
+  </section>
+{% endif %}
+{% if run.summary %}<p id="run-summary"><strong>Summary:</strong> {{ run.summary }}</p>{% endif %}
+
+<h2>Artifacts</h2>
+{% set links = run.artifact_links() %}
+{% if links %}
+<ul class="artifacts">
+  {% for key, url in links.items() %}<li><a href="{{ url }}" target="_blank" rel="noopener">{{ url.rsplit('/',1)[1] }}</a></li>{% endfor %}
+</ul>
+{% else %}<p class="muted">No artifacts yet.</p>{% endif %}
+
+{% if console %}<h2>Console log</h2><pre class="log" id="console-log">{{ console }}</pre>{% endif %}
+{% if errlog and errlog.strip() %}<h2>Error log</h2><pre class="log" id="error-log">{{ errlog }}</pre>{% endif %}
+{% endblock %}

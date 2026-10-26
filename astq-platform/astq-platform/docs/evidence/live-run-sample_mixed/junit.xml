@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="1" tests="4" time="0.038" timestamp="2026-10-19T08:26:56.256879+00:00" hostname="vm"><testcase classname="tests.samples.sample_mixed_results" name="test_addition_works" time="0.001" /><testcase classname="tests.samples.sample_mixed_results" name="test_string_upper" time="0.000" /><testcase classname="tests.samples.sample_mixed_results" name="test_skipped_example" time="0.000"><skipped type="pytest.skip" message="demonstrates a skipped test in the report">/home/claude/astq-platform/tests/samples/sample_mixed_results.py:18: demonstrates a skipped test in the report</skipped></testcase><testcase classname="tests.samples.sample_mixed_results" name="test_intentional_failure_for_demo" time="0.000"><failure message="AssertionError: Intentional failure: totals differ&#10;assert 60 == 100">def test_intentional_failure_for_demo():
+        expected_total = 100
+        actual_total = sum([10, 20, 30])
+&gt;       assert actual_total == expected_total, "Intentional failure: totals differ"
+E       AssertionError: Intentional failure: totals differ
+E       assert 60 == 100
+
+tests/samples/sample_mixed_results.py:26: AssertionError</failure></testcase></testsuite></testsuites>

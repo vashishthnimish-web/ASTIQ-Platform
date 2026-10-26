@@ -1,0 +1,36 @@
+{% macro badge(status) -%}
+<span class="badge {{ status|lower }}" data-status="{{ status }}">{{ status }}</span>
+{%- endmacro %}
+
+{% macro counts(run) -%}
+{% if run.passed_count is none -%}
+  <span class="muted">n/a</span>
+{%- else -%}
+  <span class="c pass" title="passed">{{ run.passed_count }} pass</span>
+  <span class="c fail" title="failed">{{ run.failed_count }} fail</span>
+  <span class="c err" title="errors">{{ run.error_count }} err</span>
+  <span class="c skip" title="skipped">{{ run.skipped_count }} skip</span>
+{%- endif %}
+{%- endmacro %}
+
+{% macro run_table(runs) -%}
+<div class="table-wrap">
+<table class="runs">
+  <thead><tr><th>Run</th><th>Suite</th><th>Status</th><th>Started</th><th>Duration</th><th>Results</th></tr></thead>
+  <tbody>
+  {% for r in runs %}
+    <tr>
+      <td><a href="{{ url_for('runs.detail', run_id=r.id) }}">#{{ r.id }}</a></td>
+      <td>{{ r.suite.name }}<div class="muted small">{{ r.suite.suite_key }}</div></td>
+      <td>{{ badge(r.status) }}</td>
+      <td>{{ r.started_at|dt if r.started_at else r.created_at|dt }}</td>
+      <td>{{ r.duration_seconds|dur }}</td>
+      <td>{{ counts(r) }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="6" class="muted">No runs yet. Start one from <a href="{{ url_for('suites.list_suites') }}">Test Suites</a>.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{%- endmacro %}

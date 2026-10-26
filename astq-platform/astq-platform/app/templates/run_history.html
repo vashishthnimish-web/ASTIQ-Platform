@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_macros.html" import run_table %}
+{% block title %}Run History{% endblock %}
+{% block content %}
+<h1>Run History</h1>
+<form method="get" class="filters" aria-label="Filter runs">
+  <label>Suite
+    <select name="suite" id="f-suite">
+      <option value="">All</option>
+      {% for s in suites %}<option value="{{ s.suite_key }}" {{ 'selected' if f_suite == s.suite_key }}>{{ s.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Status
+    <select name="status" id="f-status">
+      <option value="">All</option>
+      {% for st in statuses %}<option value="{{ st }}" {{ 'selected' if f_status == st }}>{{ st }}</option>{% endfor %}
+    </select>
+  </label>
+  <button class="btn" type="submit">Apply</button>
+  <a href="{{ url_for('runs.history') }}">Reset</a>
+</form>
+{{ run_table(pagination.items) }}
+<nav class="pager" aria-label="Pagination">
+  {% if pagination.has_prev %}<a href="{{ url_for('runs.history', page=pagination.prev_num, suite=f_suite, status=f_status) }}">← Newer</a>{% endif %}
+  <span class="muted">Page {{ pagination.page }} of {{ pagination.pages or 1 }} · {{ pagination.total }} runs</span>
+  {% if pagination.has_next %}<a href="{{ url_for('runs.history', page=pagination.next_num, suite=f_suite, status=f_status) }}">Older →</a>{% endif %}
+</nav>
+{% endblock %}

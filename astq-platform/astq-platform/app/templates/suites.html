@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Test Suites{% endblock %}
+{% block content %}
+<h1>Test Suites</h1>
+<p class="muted">Only server-registered suites can be launched. The browser sends a suite key, never a command.</p>
+<div class="table-wrap">
+<table id="suite-table">
+  <thead><tr><th>Name</th><th>Key</th><th>Type</th><th>Description</th><th>State</th><th></th></tr></thead>
+  <tbody>
+  {% for s in suites %}
+    <tr data-suite="{{ s.suite_key }}">
+      <td><strong>{{ s.name }}</strong></td>
+      <td><code>{{ s.suite_key }}</code></td>
+      <td><span class="type">{{ s.suite_type }}</span></td>
+      <td>{{ s.description }}</td>
+      <td>{% if s.enabled %}<span class="badge passed">Enabled</span>{% else %}<span class="badge cancelled">Disabled</span>{% endif %}</td>
+      <td>
+        <form method="post" action="{{ url_for('suites.start', suite_key=s.suite_key) }}">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+          <button class="btn" type="submit" {% if not s.enabled %}disabled aria-disabled="true"{% endif %}>Run</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

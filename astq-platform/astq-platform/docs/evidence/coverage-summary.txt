@@ -1,0 +1,34 @@
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                Stmts   Miss  Cover
+-------------------------------------------------------
+app/__init__.py                        82      5    94%
+app/config.py                          24      0   100%
+app/execution/__init__.py               0      0   100%
+app/execution/command_registry.py      21      0   100%
+app/execution/demo_launcher.py         40     20    50%
+app/execution/runner.py                41      2    95%
+app/extensions.py                      15      1    93%
+app/models/__init__.py                  3      0   100%
+app/models/test_run.py                 35      0   100%
+app/models/test_suite.py               19      0   100%
+app/parsers/__init__.py                 3      0   100%
+app/parsers/jmeter_parser.py           31      3    90%
+app/parsers/junit_parser.py            52      3    94%
+app/reporting/__init__.py               0      0   100%
+app/reporting/summary_builder.py       20      0   100%
+app/routes/__init__.py                  0      0   100%
+app/routes/api.py                      39      0   100%
+app/routes/dashboard.py                 7      0   100%
+app/routes/runs.py                     30      1    97%
+app/routes/suites.py                   15      3    80%
+app/services/__init__.py                0      0   100%
+app/services/report_service.py         41      1    98%
+app/services/run_service.py           141      9    94%
+app/services/suite_service.py          20      2    90%
+-------------------------------------------------------
+TOTAL                                 679     50    93%
+Coverage XML written to file docs/evidence/coverage.xml
+- Generated html report: file:///home/claude/astq-platform/docs/evidence/report-core.html -
+79 passed in 7.32s

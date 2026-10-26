@@ -1,0 +1,16 @@
+[project]
+name = "astq-platform"
+version = "1.0.0"
+description = "Advanced Software Testing and Quality Assurance Platform"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration", "tests/api", "tests/ui"]
+markers = [
+    "ui: Selenium browser tests (skipped automatically when no browser/driver is available)",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["migrations"]

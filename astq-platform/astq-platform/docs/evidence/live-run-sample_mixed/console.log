@@ -1,0 +1,16 @@
+..sF                                                                     [100%]
+=================================== FAILURES ===================================
+______________________ test_intentional_failure_for_demo _______________________
+
+    def test_intentional_failure_for_demo():
+        expected_total = 100
+        actual_total = sum([10, 20, 30])
+>       assert actual_total == expected_total, "Intentional failure: totals differ"
+E       AssertionError: Intentional failure: totals differ
+E       assert 60 == 100
+
+tests/samples/sample_mixed_results.py:26: AssertionError
+- Generated html report: file:///home/claude/astq-platform/artifacts/runs/3/report.html -
+=========================== short test summary info ============================
+FAILED tests/samples/sample_mixed_results.py::test_intentional_failure_for_demo
+1 failed, 2 passed, 1 skipped in 0.04s

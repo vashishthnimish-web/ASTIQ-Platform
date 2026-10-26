@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, run_table %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<section class="cards" aria-label="Run summary">
+  <div class="card"><div class="num" id="stat-total">{{ data.total }}</div><div class="lbl">Total runs</div></div>
+  <div class="card pass"><div class="num" id="stat-passed">{{ data.counts.PASSED }}</div><div class="lbl">Passed</div></div>
+  <div class="card fail"><div class="num" id="stat-failed">{{ data.counts.FAILED }}</div><div class="lbl">Failed</div></div>
+  <div class="card err"><div class="num" id="stat-error">{{ data.counts.ERROR }}</div><div class="lbl">Errors</div></div>
+  <div class="card"><div class="num" id="stat-active">{{ data.counts.RUNNING + data.counts.QUEUED }}</div><div class="lbl">Active</div></div>
+  <div class="card"><div class="num" id="stat-rate">{{ data.pass_rate ~ '%' if data.pass_rate is not none else '—' }}</div><div class="lbl">Pass rate</div></div>
+</section>
+
+<h2>Quick run</h2>
+<section class="shortcuts">
+  {% for s in suites if s.enabled %}
+  <form method="post" action="{{ url_for('suites.start', suite_key=s.suite_key) }}" class="shortcut">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <div><strong>{{ s.name }}</strong><div class="muted small">{{ s.suite_type }} · last:
+      {% set last = data.last_by_suite[s.suite_key] %}
+      {% if last %}{{ badge(last.status) }}{% else %}<span class="muted">never run</span>{% endif %}</div></div>
+    <button type="submit" class="btn" data-suite="{{ s.suite_key }}">Run</button>
+  </form>
+  {% endfor %}
+</section>
+
+<h2>Recent runs</h2>
+{{ run_table(data.recent) }}
+{% endblock %}

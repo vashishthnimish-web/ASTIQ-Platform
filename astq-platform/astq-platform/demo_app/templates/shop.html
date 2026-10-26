@@ -1,0 +1,5 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Demo Shop</title>
+<style>body{font-family:system-ui;max-width:720px;margin:30px auto;padding:0 16px}li{margin:8px 0}</style></head>
+<body><h1 id="shop-title">Demo Shop</h1><p>Target application under test by ASTQ.</p>
+<ul id="product-list">{% for p in products %}<li data-id="{{ p.id }}">{{ p.name }} — ₹{{ '%.2f'|format(p.price) }}
+{% if p.stock %}(in stock: {{ p.stock }}){% else %}(out of stock){% endif %}</li>{% endfor %}</ul></body></html>
